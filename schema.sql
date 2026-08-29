@@ -28,24 +28,28 @@ CREATE TABLE users (
     name VARCHAR(100) NOT NULL,
     phone VARCHAR(20) NOT NULL UNIQUE,
     password_hash VARCHAR(255) NOT NULL,
-    role VARCHAR(20) NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    role VARCHAR(20) NOT NULL
+        CHECK (role IN ('retailer', 'dispatcher', 'rider')),
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
--- TABLE: riders
--- Rider-specific information linked to users
+
 CREATE TABLE riders (
     id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    user_id INTEGER NOT NULL,
-    availability_status VARCHAR(20) DEFAULT 'AVAILABLE',
+    user_id INTEGER NOT NULL UNIQUE,
+    availability_status VARCHAR(20) NOT NULL DEFAULT 'AVAILABLE'
+        CHECK (availability_status IN ('AVAILABLE', 'BUSY', 'OFFLINE')),
     location VARCHAR(255),
     vehicle_type VARCHAR(50),
-    plate_number VARCHAR(20),
-    CONSTRAINT fk_rider_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+    plate_number VARCHAR(20) UNIQUE,
+
+    CONSTRAINT fk_rider_user
+        FOREIGN KEY (user_id)
+        REFERENCES users(id)
+        ON DELETE CASCADE
 );
 
--- TABLE: deliveries
--- Delivery requests created by retailers
+
 CREATE TABLE deliveries (
     id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     retailer_id INTEGER NOT NULL,
@@ -54,24 +58,44 @@ CREATE TABLE deliveries (
     pickup_address TEXT NOT NULL,
     delivery_address TEXT NOT NULL,
     item_description TEXT NOT NULL,
-    status VARCHAR(30) DEFAULT 'OPEN',
+
+    status VARCHAR(30) NOT NULL DEFAULT 'OPEN'
+        CHECK (status IN ('OPEN', 'ASSIGNED', 'PICKED', 'DELIVERED')),
+
     assigned_rider_id INTEGER,
     assigned_by INTEGER,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT fk_delivery_retailer FOREIGN KEY (retailer_id) REFERENCES users(id) ON DELETE CASCADE,
-    CONSTRAINT fk_delivery_rider FOREIGN KEY (assigned_rider_id) REFERENCES riders(id) ON DELETE SET NULL,
-    CONSTRAINT fk_delivery_assigned_by FOREIGN KEY (assigned_by) REFERENCES users(id) ON DELETE SET NULL
+
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT fk_delivery_retailer
+        FOREIGN KEY (retailer_id)
+        REFERENCES users(id)
+        ON DELETE CASCADE,
+
+    CONSTRAINT fk_delivery_rider
+        FOREIGN KEY (assigned_rider_id)
+        REFERENCES riders(id)
+        ON DELETE SET NULL,
+
+    CONSTRAINT fk_delivery_assigned_by
+        FOREIGN KEY (assigned_by)
+        REFERENCES users(id)
+        ON DELETE SET NULL
 );
 
--- TABLE: delivery_status_history
--- Audit trail of delivery status changes
+
 CREATE TABLE delivery_status_history (
     id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     delivery_id INTEGER NOT NULL,
-    status VARCHAR(30) NOT NULL,
-    changed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT fk_status_delivery FOREIGN KEY (delivery_id) REFERENCES deliveries(id) ON DELETE CASCADE
+    status VARCHAR(30) NOT NULL
+        CHECK (status IN ('OPEN', 'ASSIGNED', 'PICKED', 'DELIVERED')),
+    changed_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT fk_status_delivery
+        FOREIGN KEY (delivery_id)
+        REFERENCES deliveries(id)
+        ON DELETE CASCADE
 );
 
 -- ============================================
