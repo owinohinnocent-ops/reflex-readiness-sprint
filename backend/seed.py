@@ -6,7 +6,7 @@ from sqlalchemy import select
 from database import Base, SessionLocal, engine
 from models.rider import Rider
 from models.user import User, UserRole
-
+from auth.passwords import hash_password
 
 def seed_data():
     # Ensure database tables exist
@@ -20,19 +20,19 @@ def seed_data():
             {
                 "name": "Test Retailer",
                 "phone": "0700000000",
-                "password_hash": "development-retailer-password-hash",
+                "password_hash": "retailer123",
                 "role": UserRole.RETAILER,
             },
             {
                 "name": "Test Dispatcher",
                 "phone": "0700000001",
-                "password_hash": "development-dispatcher-password-hash",
+                "password_hash": "dispatcher123",
                 "role": UserRole.DISPATCHER,
             },
             {
                 "name": "Test Rider",
                 "phone": "0700000002",
-                "password_hash": "development-rider-password-hash",
+                "password_hash": "rider123",
                 "role": UserRole.RIDER,
             },
         ]
@@ -43,8 +43,8 @@ def seed_data():
             existing_user = db.scalars(stmt).first()
 
             if existing_user:
-                print(f"User already exists: ID={existing_user.id}, Name='{existing_user.name}', Role='{existing_user.role.value}', Phone='{existing_user.phone}'")
-                results[existing_user.role.value] = existing_user.id
+                print(f"User already exists: ID={existing_user.id}, Name='{existing_user.name}', Role='{existing_user.role}', Phone='{existing_user.phone}'")
+                results[existing_user.role] = existing_user.id
             else:
                 new_user = User(
                     name=user_info["name"],
@@ -63,8 +63,8 @@ def seed_data():
                         plate_number="KMCA 123X",
                     ))
                     db.commit()
-                print(f"Created user: ID={new_user.id}, Name='{new_user.name}', Role='{new_user.role.value}', Phone='{new_user.phone}'")
-                results[new_user.role.value] = new_user.id
+                print(f"Created user: ID={new_user.id}, Name='{new_user.name}', Role='{new_user.role}', Phone='{new_user.phone}'")
+                results[new_user.role] = new_user.id
 
         print("\n" + "=" * 55)
         print(" SEEDED TEST USERS FOR SWAGGER TESTING")

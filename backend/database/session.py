@@ -1,17 +1,10 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-# SQLite database URL pointing to a local reflex.db file
-SQLALCHEMY_DATABASE_URL = "sqlite:///./reflex.db"
+SQLALCHEMY_DATABASE_URL = "postgresql://postgres:Akoth2006@localhost:5432/reflex_db"
 
-# Create the SQLAlchemy engine
-# 'check_same_thread': False is needed only for SQLite to allow multiple threads in FastAPI
-engine = create_engine(
-    SQLALCHEMY_DATABASE_URL,
-    connect_args={"check_same_thread": False},
-)
+engine = create_engine(SQLALCHEMY_DATABASE_URL)
 
-# Create a SessionLocal factory to generate database sessions
 SessionLocal = sessionmaker(
     autocommit=False,
     autoflush=False,

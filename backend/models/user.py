@@ -12,9 +12,9 @@ if TYPE_CHECKING:
 
 
 class UserRole(str, enum.Enum):
-    RETAILER = "RETAILER"
-    DISPATCHER = "DISPATCHER"
-    RIDER = "RIDER"
+    RETAILER = "retailer"
+    DISPATCHER = "dispatcher"
+    RIDER = "rider"
 
 
 class User(Base):
