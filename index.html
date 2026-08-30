@@ -2,11 +2,16 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta http-equiv="refresh" content="0; url=frontend/index.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Opening Reflex…</title>
+    <meta name="theme-color" content="#0b6b61" />
+    <title>Reflex | Delivery coordination</title>
+    <link rel="stylesheet" href="./styles.css" />
+    <link rel="stylesheet" href="./direct-open.css" />
+    <link rel="stylesheet" href="./demo.css" />
   </head>
   <body>
-    <p>Opening <a href="frontend/index.html">Reflex</a>…</p>
+    <main id="app" class="app-shell" aria-live="polite"></main>
+    <div id="toast-region" class="toast-region" aria-live="assertive"></div>
+    <script type="module" src="./js/app.js"></script>
   </body>
 </html>
