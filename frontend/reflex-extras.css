@@ -1,0 +1,89 @@
+/* Reflex extras: rider directory + seeded test-account quick login.
+   Loaded alongside styles.css / demo.css / direct-open.css — additive only,
+   doesn't touch any existing rule. */
+
+.rider-directory {
+  display: grid;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.rider-directory-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.85rem 1rem;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  background: #fff;
+}
+
+.rider-directory-card.unavailable {
+  opacity: 0.55;
+}
+
+.rider-directory-name {
+  font-weight: 600;
+}
+
+.rider-directory-meta {
+  font-size: 0.85rem;
+  color: #5b6472;
+}
+
+.rider-directory-badge {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  background: #e5f6ee;
+  color: #0b6b61;
+  white-space: nowrap;
+}
+
+.rider-directory-badge.busy {
+  background: #fdeee0;
+  color: #9a5a10;
+}
+
+.test-accounts {
+  margin-top: 1rem;
+  padding-top: 0.9rem;
+  border-top: 1px dashed rgba(0, 0, 0, 0.15);
+}
+
+.test-accounts-label {
+  font-size: 0.8rem;
+  color: #5b6472;
+  margin-bottom: 0.5rem;
+}
+
+.test-account-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.test-account-button {
+  font-size: 0.78rem;
+  padding: 0.35rem 0.65rem;
+  border-radius: 8px;
+  border: 1px solid rgba(11, 107, 97, 0.4);
+  background: #f4fbf9;
+  color: #0b6b61;
+  cursor: pointer;
+}
+
+.test-account-button:hover {
+  background: #e5f6ee;
+}
+
+.assigned-rider-card {
+  margin-top: 0.5rem;
+  padding: 0.6rem 0.75rem;
+  border-radius: 8px;
+  background: #f4fbf9;
+  font-size: 0.85rem;
+}
