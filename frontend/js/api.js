@@ -1,6 +1,8 @@
 // Relative paths work through the local proxy. A direct file open still renders
 // the interface, and points API requests at the normal FastAPI development URL.
-const DEFAULT_API_BASE = location.protocol === "file:" ? "http://127.0.0.1:8000" : "/api";
+const DEFAULT_API_BASE = location.protocol === "file:"
+  ? "http://127.0.0.1:8000"
+  : "https://reflex-backend-wxfv.onrender.com";
 const REQUEST_TIMEOUT_MS = 12_000;
 
 export class ApiError extends Error {
