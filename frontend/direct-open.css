@@ -1,0 +1,11 @@
+.direct-open-hint {
+  margin: 0;
+  padding: 10px 11px;
+  border-left: 3px solid #d79f19;
+  border-radius: 4px;
+  background: #fff5d9;
+  color: #705719 !important;
+  font-size: 12px !important;
+}
+
+.direct-open-hint code { font-size: 11px; }
